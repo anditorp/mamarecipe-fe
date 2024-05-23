@@ -3,13 +3,13 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="font-sans navbar bg-transparent shadow-none">
-      <div className="navbar-start">
+    <nav className="font-sans navbar bg-transparent shadow-none ">
+      <div className="navbar-start ml-[132px]">
         <a className="navbar-item">Home</a>
         <a className="navbar-item">Add Recipe</a>
         <a className="navbar-item">Profile</a>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end mr-[132px]">
         <a className="navbar-item">Login</a>
       </div>
     </nav>

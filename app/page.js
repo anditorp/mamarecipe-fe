@@ -1,5 +1,3 @@
-// pages/index.js (Home component)
-
 import Image from "next/image";
 import FirstImage from "../public/home1.png";
 import YellowBlock from "../public/bg-yellow.png";
