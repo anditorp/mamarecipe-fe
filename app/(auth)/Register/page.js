@@ -1,15 +1,16 @@
 import React from "react";
 import { Button, Input, Checkbox } from "@/components/index";
+import Link from "next/link";
 
 const Register = () => {
   return (
     <>
-      <div className=" min-h-screen flex justify-center items-center">
+      <div className=" h-screen flex flex-col justify-center items-center mt-10">
         <div className="flex gap-14 ">
-          <div className="hidden md:block">
+          <div className="max-lg:hidden">
             <img src="/auth-image.png" alt="LoginImg" />
           </div>
-          <div className="w-[570px] h-[822px]  ">
+          <div className="w-[570px] h-[822px] max-sm:w-[400px] ">
             <h1 className="text-4xl font-semibold text-primary mb-4 text-center">
               Let’s Get Started !
             </h1>
@@ -71,9 +72,9 @@ const Register = () => {
             </form>
             <p className="text-base text-gray-700 mt-6">
               Already have account?{" "}
-              <a href="#" className="text-yellow-500">
+              <Link href="/login" className="text-yellow-500">
                 Log in Here
-              </a>
+              </Link>
             </p>
           </div>
         </div>

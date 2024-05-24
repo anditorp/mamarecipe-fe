@@ -1,15 +1,16 @@
 import React from "react";
 import { Button, Input, Checkbox } from "@/components/index";
+import Link from "next/link";
 
 const Login = () => {
   return (
     <>
-      <div className=" min-h-screen flex justify-center items-center">
+      <div className=" h-screen flex flex-col justify-center items-center mt-10">
         <div className="flex gap-14 ">
-          <div className="hidden md:block">
+          <div className=" max-lg:hidden">
             <img src="/auth-image.png" alt="LoginImg" />
           </div>
-          <div className="w-[570px] h-[822px]  ">
+          <div className="w-[570px] h-[822px] max-sm:w-[400px]  ">
             <h1 className="text-4xl font-semibold text-primary mb-4 text-center">
               WELCOME
             </h1>
@@ -55,9 +56,9 @@ const Login = () => {
             </form>
             <p className="text-base text-gray-700 mt-6">
               Don’t have an account?{" "}
-              <a href="#" className="text-yellow-500">
+              <Link href="/register" className="text-yellow-500">
                 Sign Up
-              </a>
+              </Link>
             </p>
           </div>
         </div>

@@ -6,8 +6,8 @@ import { Footer, Navbar, Button, Card } from "@/components/index";
 const Home = () => {
   return (
     <div>
-      <div className="relative flex flex-col mx-[132px] z-50">
-        <Navbar />
+      <Navbar />
+      <div className="relative flex flex-col mx-[132px]">
         {/* Section One */}
         <div className="flex justify-between my-20 gap-20">
           <div className="w-1/2 flex flex-col justify-center">

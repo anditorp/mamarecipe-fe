@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Tabs } from "../../../components/index";
 
@@ -69,9 +71,9 @@ const profile = () => {
         </div>
       </section>
       <section className="mb-10">
-        {/* <div>
+        <div>
           <Tabs></Tabs>
-        </div> */}
+        </div>
       </section>
     </main>
   );
