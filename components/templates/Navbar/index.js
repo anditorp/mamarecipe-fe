@@ -4,8 +4,8 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-none">
-      <div className="navbar-start ml-[132px] max-lg:ml-0">
+    <div className="navbar bg-base-100 shadow-none ">
+      <div className="navbar-start ml-[132px] max-lg:ml-0 z-20">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg

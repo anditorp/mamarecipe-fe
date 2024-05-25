@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { Card } from "../index";
+import useRecipeStore from "../../stores/useRecipeStore";
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("my-recipe");
+  const recipes = useRecipeStore((state) => state.recipes);
 
   return (
     <div className="flex flex-col gap-8 py-24">
@@ -48,21 +50,24 @@ const Tabs = () => {
       <div className="grid grid-cols-4 gap-8 px-24">
         {activeTab === "my-recipe" && (
           <>
-            <Card />
-            <Card />
-            <Card />
+            {recipes.map((recipe) => (
+              <Card
+                key={recipe.id}
+                image={
+                  recipe.image
+                    ? URL.createObjectURL(recipe.image)
+                    : "/default-image.png"
+                }
+                title={recipe.title}
+              />
+            ))}
           </>
         )}
         {activeTab === "saved-recipe" && (
-          <>
-            <Card />
-            <Card />
-          </>
+          <>{/* Tampilkan resep yang disimpan di sini */}</>
         )}
         {activeTab === "liked-recipe" && (
-          <>
-            <Card />
-          </>
+          <>{/* Tampilkan resep yang disukai di sini */}</>
         )}
       </div>
     </div>
