@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Input, Checkbox } from "@/components/index";
 import Link from "next/link";
 
-const Login = () => {
+const login = () => {
   return (
     <>
       <div className=" h-screen flex flex-col justify-center items-center mt-10">
@@ -67,4 +67,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default login;

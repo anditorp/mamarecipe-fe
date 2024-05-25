@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Input, Checkbox } from "@/components/index";
 import Link from "next/link";
 
-const Register = () => {
+const register = () => {
   return (
     <>
       <div className=" h-screen flex flex-col justify-center items-center mt-10">
@@ -83,4 +83,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default register;
