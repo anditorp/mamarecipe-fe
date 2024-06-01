@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 const Login = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,7 +18,7 @@ const Login = () => {
   };
 
   const validatePassword = (password) => {
-    return password.length >= 6; // Example: password must be at least 6 characters long
+    return password.length >= 6;
   };
 
   const handleFormData = async (event) => {
@@ -28,12 +30,12 @@ const Login = () => {
       const password = formData.get("password");
 
       if (!validateEmail(email)) {
-        setError("Invalid email format");
+        setEmailError("Invalid email format");
         return;
       }
 
       if (!validatePassword(password)) {
-        setError("Password must be at least 6 characters long");
+        setPasswordError("Password must be at least 6 characters long");
         return;
       }
 
@@ -46,7 +48,17 @@ const Login = () => {
       router.push("/");
     } catch (error) {
       console.log(error);
-      setError("An error occurred during login. Please try again.");
+      if (error.response) {
+        if (error.response.status === 403) {
+          setPasswordError("Incorrect password. Please try again.");
+        } else if (error.response.status === 403) {
+          setEmailError("Email not found. Please check and try again.");
+        } else {
+          setError("An error occurred during login. Please try again.");
+        }
+      } else {
+        setError("An error occurred during login. Please try again.");
+      }
     }
   };
 
@@ -74,6 +86,9 @@ const Login = () => {
               className="w-full border rounded-md py-2 px-3 mb-4"
               required
             />
+            {emailError && (
+              <p className="text-red-500 text-sm mb-4">{emailError}</p>
+            )}
             <Input
               label="Password"
               type="password"
@@ -83,6 +98,9 @@ const Login = () => {
               className="w-full border rounded-md py-2 px-3 mb-4"
               required
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm mb-4">{passwordError}</p>
+            )}
             <Checkbox label="I agree to terms & conditions" required />
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <Button

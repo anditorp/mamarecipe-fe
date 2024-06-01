@@ -3,32 +3,38 @@
 import React, { useState } from "react";
 import { Input, Button } from "@/components/index";
 import useRecipeStore from "../../../stores/useRecipeStore";
+import { postFormData, postJSON } from "@/utils/utils";
 
 const AddRecipe = () => {
   const addRecipe = useRecipeStore((state) => state.addRecipe);
   const [title, setTitle] = useState("");
-  const [ingredients, setIngredients] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
   const handleFileChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = () => {
-    if (!title || !ingredients || !image) {
+  const handleSubmit = async () => {
+    if (!title || !description || !image) {
       alert("Please fill in all fields and upload an image.");
       return;
     }
 
     const newRecipe = {
-      id: Date.now(),
       title,
-      ingredients,
-      image,
+      description,
+      image:
+        "https://res.cloudinary.com/di572l6cq/image/upload/v1717247728/ncx6unysu6trgh53ntnu.jpg",
     };
+
+    try {
+      const result = await postJSON("/v1/recipes/", newRecipe);
+    } catch (error) {}
+
     addRecipe(newRecipe);
     setTitle("");
-    setIngredients("");
+    setDescription("");
     setImage(null);
   };
 
@@ -50,10 +56,10 @@ const AddRecipe = () => {
           className="h-[60px] lg:h-[100px] text-center bg-[#F6F5F4] border-none mt-4 lg:mt-0"
         />
         <Input
-          label="Ingredients"
-          placeholder="Ingredients"
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
+          label="Description"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className="h-[200px] lg:h-[480px] text-center bg-[#F6F5F4] border-none mt-4 lg:mt-0"
         />
       </div>

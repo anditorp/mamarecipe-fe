@@ -9,7 +9,7 @@ const DetailRecipe = () => {
             Loream Sandwich
           </h1>
         </div>
-        <div>
+        <div className="flex">
           <img
             src="/detail-recipe.png"
             alt="LoginImg"

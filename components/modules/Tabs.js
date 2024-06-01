@@ -2,11 +2,48 @@
 
 import { useState } from "react";
 import { Card } from "../index";
-import useRecipeStore from "../../stores/useRecipeStore";
+import useSWR from "swr";
+
+const fetcher = (url) =>
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache",
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      throw error;
+    });
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("my-recipe");
-  const recipes = useRecipeStore((state) => state.recipes);
+
+  const {
+    data: myRecipes,
+    error: myRecipesError,
+    isLoading: myRecipesLoading,
+  } = useSWR("/v1/recipes/self", fetcher);
+  const {
+    data: savedRecipesData,
+    error: savedRecipesError,
+    isLoading: savedRecipesLoading,
+  } = useSWR("/v1/recipes/save", fetcher);
+  const {
+    data: likedRecipesData,
+    error: likedRecipesError,
+    isLoading: likedRecipesLoading,
+  } = useSWR("/v1/recipes/like", fetcher);
+
+  if (myRecipesLoading || savedRecipesLoading || likedRecipesLoading)
+    return <p>Loading...</p>;
+  if (myRecipesError || savedRecipesError || likedRecipesError)
+    return <p>Error loading recipes</p>;
 
   return (
     <div className="flex flex-col gap-8 py-24">
@@ -47,28 +84,28 @@ const Tabs = () => {
       </div>
 
       <div className="w-full h-[1px] bg-[#DFDFDF]"></div>
-      <div className="grid grid-cols-4 gap-8 px-24">
-        {activeTab === "my-recipe" && (
-          <>
-            {recipes.map((recipe) => (
-              <Card
-                key={recipe.id}
-                image={
-                  recipe.image
-                    ? URL.createObjectURL(recipe.image)
-                    : "/default-image.png"
-                }
-                title={recipe.title}
-              />
-            ))}
-          </>
-        )}
-        {activeTab === "saved-recipe" && (
-          <>{/* Tampilkan resep yang disimpan di sini */}</>
-        )}
-        {activeTab === "liked-recipe" && (
-          <>{/* Tampilkan resep yang disukai di sini */}</>
-        )}
+
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-24">
+        {activeTab === "my-recipe" &&
+          myRecipes?.data?.map((item) => (
+            <Card key={item.id} image={item.image} title={item.title} />
+          ))}
+        {activeTab === "saved-recipe" &&
+          savedRecipesData?.data?.map((item) => (
+            <Card
+              key={item.recipe.id}
+              image={item.recipe.image}
+              title={item.recipe.title}
+            />
+          ))}
+        {activeTab === "liked-recipe" &&
+          likedRecipesData?.data.map((item) => (
+            <Card
+              key={item.recipe.id}
+              image={item.recipe.image}
+              title={item.recipe.title}
+            />
+          ))}
       </div>
     </div>
   );

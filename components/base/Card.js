@@ -9,7 +9,7 @@ const Card = ({ image, title, ...props }) => {
         backgroundImage: `url(${image})`,
       }}
     >
-      <p className="w-1/2 font-medium text-3xl text-black">{title}</p>
+      <p className="w-1/2 font-bold text-3xl text-black">{title}</p>
     </div>
   );
 };
