@@ -2,40 +2,78 @@
 
 import React, { useState } from "react";
 import { Input, Button } from "@/components/index";
-import useRecipeStore from "../../../stores/useRecipeStore";
-import { postFormData, postJSON } from "@/utils/utils";
+import { postFormData } from "@/utils/utils";
 
-const AddRecipe = () => {
-  const addRecipe = useRecipeStore((state) => state.addRecipe);
+const AddRecipe = ({ toast, setError }) => {
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
-  const handleFileChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleUpload = async (e) => {
+    try {
+      setLoading(true);
+
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch(`/v1/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setError("Upload image failed");
+        toast.error("Upload image failed");
+        setLoading(false);
+        return;
+      }
+
+      const res = await response.json();
+      const { file_url } = res.data;
+      setImage(file_url);
+      toast.success(`Upload image success`);
+    } catch (err) {
+      setError(err.message);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
-    if (!title || !description || !image) {
-      alert("Please fill in all fields and upload an image.");
-      return;
-    }
-
-    const newRecipe = {
-      title,
-      description,
-      image:
-        "https://res.cloudinary.com/di572l6cq/image/upload/v1717247728/ncx6unysu6trgh53ntnu.jpg",
-    };
-
     try {
-      const result = await postJSON("/v1/recipes/", newRecipe);
-    } catch (error) {}
+      setLoading(true);
+      const formData = {
+        title,
+        description,
+        image,
+      };
 
-    addRecipe(newRecipe);
-    setTitle("");
-    setDescription("");
-    setImage(null);
+      const response = await fetch(`/v1/recipes/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        setError("Add recipe failed");
+        return;
+      }
+
+      // Optionally update UI optimistically
+      setTitle("");
+      setDescription("");
+      setImage(null);
+      toast.success(`Recipe added successfully`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,7 +83,7 @@ const AddRecipe = () => {
           id="file-upload"
           label="Upload Image"
           type="file"
-          onChange={handleFileChange}
+          onChange={handleUpload}
           className="h-[200px] lg:h-[480px] text-center bg-[#F6F5F4] border-none"
         />
         <Input
