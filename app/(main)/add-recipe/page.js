@@ -1,79 +1,68 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button } from "@/components/index";
-import { postFormData } from "@/utils/utils";
+import useRecipeStore from "../../../stores/useRecipeStore";
+import { postFormData, postJSON, putJSON } from "@/service/addRecipe";
 
-const AddRecipe = ({ toast, setError }) => {
-  const [loading, setLoading] = useState(false);
+const AddRecipe = () => {
+  const addRecipe = useRecipeStore((state) => state.addRecipe);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isProcessingData, setIsProcessingData] = useState(false);
 
-  const handleUpload = async (e) => {
-    try {
-      setLoading(true);
-
-      const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch(`/v1/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        setError("Upload image failed");
-        toast.error("Upload image failed");
-        setLoading(false);
-        return;
-      }
-
-      const res = await response.json();
-      const { file_url } = res.data;
-      setImage(file_url);
-      toast.success(`Upload image success`);
-    } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (image) {
+      setImagePreview(URL.createObjectURL(image));
     }
+  }, [image]);
+
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      const formData = {
-        title,
-        description,
-        image,
-      };
-
-      const response = await fetch(`/v1/recipes/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        setError("Add recipe failed");
-        return;
-      }
-
-      // Optionally update UI optimistically
-      setTitle("");
-      setDescription("");
-      setImage(null);
-      toast.success(`Recipe added successfully`);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!title || !description || !image) {
+      alert("Please fill in all fields and upload an image.");
+      return;
     }
+    setIsProcessingData(true);
+
+    const newRecipe = {
+      title,
+      description,
+      image: "",
+    };
+
+    try {
+      const result = await postJSON("/v1/recipes/", newRecipe);
+      if (result.status == "success") {
+        const imageResult = await postFormData("/v1/upload", {
+          file: image,
+        });
+        if (imageResult.status == "success") {
+          const finalResult = await putJSON("/v1/recipes/" + result.data.id, {
+            ...newRecipe,
+            image: imageResult.data.file_url,
+          });
+          if (finalResult.status == "success") {
+            alert("Add Recipe Success");
+          }
+        }
+      }
+    } catch (error) {
+      alert("Something went wrong");
+      console.log(error);
+    } finally {
+      setIsProcessingData(false);
+    }
+
+    addRecipe(newRecipe);
+    setTitle("");
+    setDescription("");
+    setImage(null);
   };
 
   return (
@@ -83,9 +72,17 @@ const AddRecipe = ({ toast, setError }) => {
           id="file-upload"
           label="Upload Image"
           type="file"
-          onChange={handleUpload}
+          onChange={handleFileChange}
           className="h-[200px] lg:h-[480px] text-center bg-[#F6F5F4] border-none"
         />
+        {imagePreview && (
+          <div
+            style={{
+              padding: "1rem",
+              width: "480px",
+            }}
+          ></div>
+        )}
         <Input
           label="Title"
           placeholder="Title"
@@ -102,7 +99,12 @@ const AddRecipe = ({ toast, setError }) => {
         />
       </div>
       <div className="max-w-[90%] lg:max-w-[1300px] w-full mb-20 px-4">
-        <Button onClick={handleSubmit} className="w-full" name="Add Recipe" />
+        <Button
+          onClick={handleSubmit}
+          className="w-full"
+          name={isProcessingData ? "Please Wait" : "Add Recipe"}
+          disabled={isProcessingData}
+        />
       </div>
     </section>
   );

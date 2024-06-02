@@ -43,7 +43,7 @@ const Home = async () => {
             <rect width="25" height="140" fill="#EFC81A" />
           </svg>
 
-          <h3 className="text-tertiary font-semibold"> Popular For You!</h3>
+          <h3 className="text-tertiary font-semibold"> New For You!</h3>
         </div>
         <div className="flex justify-between mb-20 gap-20">
           <div className="w-1/2 flex relative h-[500px]">
@@ -87,7 +87,7 @@ const Home = async () => {
             <rect width="25" height="140" fill="#EFC81A" />
           </svg>
 
-          <h3 className="text-tertiary font-semibold"> New Recipe</h3>
+          <h3 className="text-tertiary font-semibold"> Popular Recipe</h3>
         </div>
         <div className=" my-10">
           <Search placeholder="Search Recipe" className="" />

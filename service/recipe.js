@@ -5,7 +5,7 @@ export const getRecipe = async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/recipes?page=4&limit=3`,
       {
-        cache: "force-cache",
+        cache: "no-cache",
       }
     );
     if (!response.ok) {

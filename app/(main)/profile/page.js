@@ -1,20 +1,57 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "../../../components/index";
 
-const profile = () => {
+const Profile = () => {
+  const [myProfile, setMyProfile] = useState({});
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const getMyProfile = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`/v1/users/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        // throw new Error('Login failed');
+        setError("Get my profile failed");
+        toast.error(error);
+        setLoading(false);
+        return;
+      }
+
+      const res = await response.json();
+      setMyProfile(res.data);
+
+      // toast.success(`Get my profile success`)
+      // console.log(res.data);
+    } catch (err) {
+      setError(err.message);
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main>
-      <section className="flex flex-col items-center mt-20 ">
-        <div className=" flex flex-row items-end mb-5">
+      <section className="flex flex-col items-center mt-20">
+        <div className="flex flex-row items-end mb-5">
           <img
             className="rounded-full size-[172px]"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
             alt="image error"
           />
-          <details className="dropdown relative ">
-            <summary className=" btn border-none shadow-none flex items-center">
+          <details className="dropdown relative">
+            <summary className="btn border-none shadow-none flex items-center">
               <svg
                 width="24"
                 height="24"
@@ -39,7 +76,7 @@ const profile = () => {
                 />
               </svg>
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[1] bg-primary rounded-box w-52 absolute top-10 ">
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-primary rounded-box w-52 absolute top-10">
               <li>
                 <a>Change Photo Profile</a>
               </li>
@@ -50,7 +87,7 @@ const profile = () => {
           </details>
         </div>
         <div className="flex flex-col items-center mb-10">
-          <h3>Garneta Sharina</h3>
+          <h3>{myProfile.name || " Garneta Sharina"}</h3>
           <svg
             width="319"
             height="1"
@@ -64,19 +101,19 @@ const profile = () => {
               x2="318.5"
               y2="0.5"
               stroke="#000"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>
       </section>
       <section className="mb-10">
         <div>
-          <Tabs></Tabs>
+          <Tabs />
         </div>
       </section>
     </main>
   );
 };
 
-export default profile;
+export default Profile;

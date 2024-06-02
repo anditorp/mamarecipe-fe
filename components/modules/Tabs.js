@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Card } from "../index";
 import useSWR from "swr";
+import { useRouter } from "next/navigation";
 
 const fetcher = (url) =>
   fetch(url, {
@@ -23,6 +24,11 @@ const fetcher = (url) =>
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("my-recipe");
+  const router = useRouter(); // Initialize useRouter
+
+  const handleNavigate = (id) => {
+    router.push(`/${id}`); // Gunakan router.push untuk navigasi
+  };
 
   const {
     data: myRecipes,
@@ -88,7 +94,12 @@ const Tabs = () => {
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-24">
         {activeTab === "my-recipe" &&
           myRecipes?.data?.map((item) => (
-            <Card key={item.id} image={item.image} title={item.title} />
+            <Card
+              key={item.id}
+              image={item.image}
+              title={item.title}
+              onClick={() => handleNavigate(item.id)}
+            />
           ))}
         {activeTab === "saved-recipe" &&
           savedRecipesData?.data?.map((item) => (
