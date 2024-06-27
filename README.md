@@ -98,14 +98,15 @@ To run this project, you will need to add the following environment variables to
 <a href="mailto:muhamadandito78@gmail.com">
   <img src="https://skillicons.dev/icons?i=gmail" alt="Gmail" style="width: 15px; height: 15px;"> : muhamadandito78@gmail.com
 </a>
-
+<br>
 <a href="https://www.linkedin.com/in/anditorp/">
   <img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn" style="width: 15px; height: 15px;"> : https://www.linkedin.com/in/anditorp/
 </a>
-
+<br>
 <a href="https://github.com/anditorp">
   <img src="https://skillicons.dev/icons?i=github" alt="GitHub" style="width: 15px; height: 15px;"> : https://github.com/anditorp/
 </a>
+<br>
 
 ## Related Project
 
