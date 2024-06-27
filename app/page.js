@@ -5,34 +5,33 @@ import { Footer, Navbar, Button, Card, Search } from "@/components/index";
 
 const Home = async () => {
   const { data } = await getRecipe();
+
   return (
     <div>
       <div className="z-10">
         <Navbar />
       </div>
 
-      <div className="relative flex flex-col mx-[132px]">
+      <div className="relative mx-4 sm:mx-[132px]">
         {/* Section One */}
-        <div className="flex justify-between my-20 gap-20 z-10">
-          <div className="w-1/2 flex flex-col justify-center">
-            <h1 className="font-semibold text-secondary">
+        <div className="flex flex-col sm:flex-row justify-between items-center my-20 gap-10 sm:gap-20 z-10">
+          <div className="w-full sm:w-1/2 flex flex-col justify-center items-center text-center sm:text-left">
+            <h1 className="font-semibold text-secondary text-4xl sm:text-5xl">
               Discover Recipe <br />& Delicious Food
             </h1>
           </div>
-          <div className="w-1/2 flex relative h-[500px] ">
+          <div className="w-full sm:w-1/2 flex relative h-[300px] sm:h-[500px]">
             <Image
               src="/home1.png"
               alt="Foto"
-              className="w-full h-full object-cover  rounded-3xl"
-              fill
+              className="w-full h-full object-cover rounded-3xl"
+              layout="fill"
             />
           </div>
         </div>
-        {/* <div className="flex justify-end -mt-[810px] z-0">
-          <img src="/bg-yellow.png" alt="LoginImg" className="flex flex-col" />
-        </div> */}
+
         {/* Section Two */}
-        <div className="flex items-center gap-10 mb-10">
+        <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-20 mb-20">
           <svg
             width="25"
             height="140"
@@ -42,20 +41,21 @@ const Home = async () => {
           >
             <rect width="25" height="140" fill="#EFC81A" />
           </svg>
-
-          <h3 className="text-tertiary font-semibold"> New For You!</h3>
+          <h3 className="text-tertiary font-semibold text-2xl sm:text-3xl">
+            New For You!
+          </h3>
         </div>
-        <div className="flex justify-between mb-20 gap-20">
-          <div className="w-1/2 flex relative h-[500px]">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-10 sm:gap-20 mb-20">
+          <div className="w-full sm:w-1/2 flex relative h-[300px] sm:h-[500px]">
             <Image
               src="/popular-recipe.png"
               alt="Foto"
               className="w-full h-full object-cover rounded-3xl"
-              fill
+              layout="fill"
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-center gap-10">
-            <h2 className="font-semibold text-tertiary">
+          <div className="w-full sm:w-1/2 flex flex-col justify-center gap-4">
+            <h2 className="font-semibold text-tertiary text-xl sm:text-2xl">
               Healthy Bone Broth Ramen (Quick & Easy)
               <svg
                 width="100"
@@ -63,15 +63,16 @@ const Home = async () => {
                 viewBox="0 0 100 2"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="ml-2"
               >
                 <line y1="1" x2="100" y2="1" stroke="#6F6A40" strokeWidth="2" />
               </svg>
             </h2>
-            <p>
+            <p className="text-sm sm:text-base">
               Quick + Easy Chicken Bone Broth Ramen- Healthy chicken ramen in a
               hurry? That’s right!
             </p>
-            <Button name="Learn More" className={"w-52 "} />
+            <Button name="Learn More" className="w-36 sm:w-52" />
           </div>
         </div>
 
@@ -86,13 +87,14 @@ const Home = async () => {
           >
             <rect width="25" height="140" fill="#EFC81A" />
           </svg>
-
-          <h3 className="text-tertiary font-semibold"> Popular Recipe</h3>
+          <h3 className="text-tertiary font-semibold text-2xl sm:text-3xl">
+            Popular Recipe
+          </h3>
         </div>
-        <div className=" my-10">
-          <Search placeholder="Search Recipe" className="" />
+        <div className="my-10">
+          <Search placeholder="Search Recipe" className="w-full sm:w-auto" />
         </div>
-        <div className="grid grid-cols-3 gap-[200px]  mb-32">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-32">
           {data.map((item) => (
             <Card key={item.id} image={item.image} title={item.title} />
           ))}

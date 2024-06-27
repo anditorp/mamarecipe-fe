@@ -45,15 +45,19 @@ const Navbar = () => {
       }
     };
 
-    const result = await logout();
-
-    toast.success(result.message);
-    setIsLoggedIn(false);
+    try {
+      const result = await logout();
+      toast.success(result.message);
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Logout failed");
+    }
   };
 
   return (
     <div className="navbar bg-base-100 shadow-none">
-      <div className="navbar-start ml-[132px] max-lg:ml-0 z-20">
+      <div className="navbar-start ml-4 lg:ml-0 max-lg:ml-0 z-20">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -77,6 +81,9 @@ const Navbar = () => {
           >
             <li>
               <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/all-recipe">All Recipe</Link>
             </li>
             <li>
               <Link href="/add-recipe">Add Recipe</Link>
@@ -111,7 +118,7 @@ const Navbar = () => {
           Profile
         </Link>
       </div>
-      <div className="navbar-end mr-[132px] max-lg:mr-0">
+      <div className="navbar-end mr-4 max-sm:mr-5 max-md:mr-5">
         {isLoggedIn ? (
           <button
             onClick={handleLogout}

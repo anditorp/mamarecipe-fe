@@ -10,6 +10,62 @@ const DetailRecipe = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [recipeDetails, setRecipeDetails] = useState(null);
+  const [isSaved, setIsSaved] = useState(false); // State for saved status
+  const [isLiked, setIsLiked] = useState(false); // State for liked status
+
+  // Function to save the recipe
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`/v1/recipes/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recipeId: params.id }), // Assuming you need to send recipeId
+      });
+
+      if (!response.ok) {
+        throw new Error("Save recipe failed");
+      }
+
+      setIsSaved(true); // Update saved status
+      toast.success(`Recipe saved successfully`);
+    } catch (err) {
+      setError(err.message);
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Function to like the recipe
+  const handleLike = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`/v1/recipes/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recipeId: params.id }), // Assuming you need to send recipeId
+      });
+
+      if (!response.ok) {
+        throw new Error("Like recipe failed");
+      }
+
+      setIsLiked(true); // Update liked status
+      toast.success(`Recipe liked successfully`);
+    } catch (err) {
+      setError(err.message);
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -113,6 +169,22 @@ const DetailRecipe = ({ params }) => {
         </section>
       )}
       <div className="flex justify-end my-10 mx-10 gap-5">
+        <Button
+          name="Save Recipe"
+          onClick={handleSave}
+          className={`bg-${isSaved ? "green" : "gray"} ${
+            loading && "cursor-not-allowed"
+          }`}
+          disabled={loading || isSaved}
+        />
+        <Button
+          name="Like Recipe"
+          onClick={handleLike}
+          className={`bg-${isLiked ? "blue" : "gray"} ${
+            loading && "cursor-not-allowed"
+          }`}
+          disabled={loading || isLiked}
+        />
         <Button
           name="Delete Recipe"
           onClick={handleDelete}

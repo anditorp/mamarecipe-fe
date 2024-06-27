@@ -107,8 +107,8 @@ const Profile = () => {
           </svg>
         </div>
       </section>
-      <section className="mb-10">
-        <div>
+      <section className="mb-10 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="overflow-hidden rounded-lg shadow-lg">
           <Tabs />
         </div>
       </section>

@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { Card } from "../index";
 import useSWR from "swr";
@@ -24,10 +23,10 @@ const fetcher = (url) =>
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("my-recipe");
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
   const handleNavigate = (id) => {
-    router.push(`/${id}`); // Gunakan router.push untuk navigasi
+    router.push(`/${id}`);
   };
 
   const {
@@ -52,11 +51,14 @@ const Tabs = () => {
     return <p>Error loading recipes</p>;
 
   return (
-    <div className="flex flex-col gap-8 py-24">
-      <div role="tablist" className="tabs w-fit px-24">
+    <div className="flex flex-col gap-8 py-12 sm:py-16 md:py-20 lg:py-24">
+      <div
+        role="tablist"
+        className="flex justify-center w-fit px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
+      >
         <a
           role="tab"
-          className={`tab font-medium text-2xl ${
+          className={`tab font-medium text-xl sm:text-2xl ${
             activeTab === "my-recipe"
               ? "tab-active text-black"
               : "text-[#666666]"
@@ -67,7 +69,7 @@ const Tabs = () => {
         </a>
         <a
           role="tab"
-          className={`tab font-medium text-2xl ${
+          className={`tab font-medium text-xl sm:text-2xl ${
             activeTab === "saved-recipe"
               ? "tab-active text-black"
               : "text-[#666666]"
@@ -78,7 +80,7 @@ const Tabs = () => {
         </a>
         <a
           role="tab"
-          className={`tab font-medium text-2xl ${
+          className={`tab font-medium text-xl sm:text-2xl ${
             activeTab === "liked-recipe"
               ? "tab-active text-black"
               : "text-[#666666]"
@@ -89,9 +91,9 @@ const Tabs = () => {
         </a>
       </div>
 
-      <div className="w-full h-[1px] bg-[#DFDFDF]"></div>
+      <div className="w-full h-1 bg-[#DFDFDF]"></div>
 
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-24">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         {activeTab === "my-recipe" &&
           myRecipes?.data?.map((item) => (
             <Card
@@ -107,6 +109,7 @@ const Tabs = () => {
               key={item.recipe.id}
               image={item.recipe.image}
               title={item.recipe.title}
+              onClick={() => handleNavigate(item.id)}
             />
           ))}
         {activeTab === "liked-recipe" &&
@@ -115,6 +118,7 @@ const Tabs = () => {
               key={item.recipe.id}
               image={item.recipe.image}
               title={item.recipe.title}
+              onClick={() => handleNavigate(item.id)}
             />
           ))}
       </div>
