@@ -18,6 +18,24 @@ export const getRecipe = async () => {
     return Promise.reject(error.message || "terjadi error");
   }
 };
+export const getAllRecipe = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/recipes`,
+      {
+        cache: "no-cache",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("terjad error");
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error.message || "terjadi error");
+  }
+};
 
 export const getMyRecipe = async () => {
   try {

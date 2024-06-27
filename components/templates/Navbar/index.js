@@ -1,10 +1,58 @@
-// components/Navbar.js
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { getCookie } from "@/utils/cookies";
+import { toast } from "sonner";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getCookie("token");
+      console.log("Token from cookies:", token);
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  const handleLogout = async () => {
+    const logout = async () => {
+      try {
+        const response = await fetch(`/v1/auth/logout`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Logout failed");
+        }
+
+        const result = await response.json();
+
+        return result;
+      } catch (err) {
+        return Promise.reject(err.message);
+      }
+    };
+
+    const result = await logout();
+
+    toast.success(result.message);
+    setIsLoggedIn(false);
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-none ">
+    <div className="navbar bg-base-100 shadow-none">
       <div className="navbar-start ml-[132px] max-lg:ml-0 z-20">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -45,6 +93,12 @@ const Navbar = () => {
           Home
         </Link>
         <Link
+          href="/recipe"
+          className="btn btn-ghost text-xl lg:flex hidden text-secondary"
+        >
+          All Recipes
+        </Link>
+        <Link
           href="/add-recipe"
           className="btn btn-ghost text-xl lg:flex hidden text-secondary"
         >
@@ -58,12 +112,21 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-end mr-[132px] max-lg:mr-0">
-        <Link
-          href="/login"
-          className="btn btn-ghost text-xl lg:flex  text-secondary"
-        >
-          Login
-        </Link>
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="btn btn-ghost text-xl lg:flex text-secondary"
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="btn btn-ghost text-xl lg:flex text-secondary"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

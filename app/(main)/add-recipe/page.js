@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Input, Button } from "@/components/index";
-import useRecipeStore from "../../../stores/useRecipeStore";
+import useRecipeStore from "@/stores/useRecipeStore";
 import { postFormData, postJSON, putJSON } from "@/service/addRecipe";
 
 const AddRecipe = () => {

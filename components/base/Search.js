@@ -1,6 +1,6 @@
 import React from "react";
 
-const Search = ({ placeholder, className, ...props }) => {
+const Search = ({ placeholder, value, onChange, className, ...props }) => {
   return (
     <label
       className={`input bg-[#EFEFEF] flex items-center gap-2 w-full ${className}`}
@@ -9,6 +9,8 @@ const Search = ({ placeholder, className, ...props }) => {
         type="text"
         className="grow w-full"
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         {...props}
       />
       <svg

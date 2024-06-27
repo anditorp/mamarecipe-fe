@@ -69,8 +69,13 @@ const DetailRecipe = ({ params }) => {
     }
   };
 
+  const handleEdit = () => {
+    router.push(`/${params.id}/edit`);
+  };
+
   useEffect(() => {
     getRecipeDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -115,7 +120,7 @@ const DetailRecipe = ({ params }) => {
         />
         <Button
           name="Edit Recipe"
-          // onClick={handleDelete}
+          onClick={handleEdit}
           className="bg-[#7b7b7b]"
         />
       </div>
