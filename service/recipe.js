@@ -18,6 +18,7 @@ export const getRecipe = async () => {
     return Promise.reject(error.message || "terjadi error");
   }
 };
+
 export const getAllRecipe = async () => {
   try {
     const response = await fetch(

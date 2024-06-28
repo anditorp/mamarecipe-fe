@@ -10,8 +10,8 @@ const DetailRecipe = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [recipeDetails, setRecipeDetails] = useState(null);
-  const [isSaved, setIsSaved] = useState(false); // State for saved status
-  const [isLiked, setIsLiked] = useState(false); // State for liked status
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   // Function to save the recipe
   const handleSave = async () => {
@@ -23,14 +23,14 @@ const DetailRecipe = ({ params }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ recipeId: params.id }), // Assuming you need to send recipeId
+        body: JSON.stringify({ recipe_id: params.id }),
       });
 
       if (!response.ok) {
         throw new Error("Save recipe failed");
       }
 
-      setIsSaved(true); // Update saved status
+      setIsSaved(true);
       toast.success(`Recipe saved successfully`);
     } catch (err) {
       setError(err.message);
@@ -40,7 +40,6 @@ const DetailRecipe = ({ params }) => {
     }
   };
 
-  // Function to like the recipe
   const handleLike = async () => {
     try {
       setLoading(true);
@@ -50,14 +49,14 @@ const DetailRecipe = ({ params }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ recipeId: params.id }), // Assuming you need to send recipeId
+        body: JSON.stringify({ recipe_id: params.id }),
       });
 
       if (!response.ok) {
         throw new Error("Like recipe failed");
       }
 
-      setIsLiked(true); // Update liked status
+      setIsLiked(true);
       toast.success(`Recipe liked successfully`);
     } catch (err) {
       setError(err.message);
