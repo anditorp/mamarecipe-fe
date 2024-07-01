@@ -93,7 +93,7 @@ To run this project, you will need to add the following environment variables to
     <td>Edit Recipe</td>
   </tr>
  <tr>
-    <td><image src="./public/page-detail.png" alt="Landing Page" width=100%></td>
+    <td><image src="./public/page-detail2.png" alt="Landing Page" width=100%></td>
     <td><image src="./public/edit.png" alt="Landing Page After Login" width=100%/></td>
   </tr>
    
