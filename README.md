@@ -4,7 +4,7 @@
 
 ##
 
-"At MamaRecipe, we understand the joy of cooking and the importance of preserving treasured family recipes. Our platform is designed to help you capture and share your culinary creations with ease. Whether you're a seasoned chef or just starting out in the kitchen, MamaRecipe is here to inspire and empower you on your culinary journey."
+At MamaRecipe, we understand the joy of cooking and the importance of preserving treasured family recipes. Our platform is designed to help you capture and share your culinary creations with ease. Whether you're a seasoned chef or just starting out in the kitchen, MamaRecipe is here to inspire and empower you on your culinary journey.
 
 ## Tech Stack
 
