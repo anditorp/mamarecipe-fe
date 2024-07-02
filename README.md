@@ -120,3 +120,7 @@ To run this project, you will need to add the following environment variables to
 <a href="https://github.com/anditorp/mamarecipe-be">
   <img src="https://skillicons.dev/icons?i=github" alt="GitHub" style="width: 15px; height: 15px;"> : mamarecipe-be
 </a>
+
+## License 
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
